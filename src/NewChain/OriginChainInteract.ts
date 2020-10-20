@@ -1,6 +1,6 @@
 import { ContractInteract, Contracts as MosaicContracts, Utils as MosaicUtils } from '@openst/mosaic.js';
-import Contract from 'web3/eth/contract';
-import { Tx } from 'web3/eth/types';
+import { Contract } from 'web3-eth-contract';
+import { Tx as TransactionConfig } from 'web3-core';
 import InitConfig from '../Config/InitConfig';
 import Logger from '../Logger';
 import Contracts from './Contracts';

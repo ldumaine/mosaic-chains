@@ -7,7 +7,7 @@ import {
   Utils as MosaicUtils,
 } from '@openst/mosaic.js';
 
-import { Tx } from 'web3/eth/types';
+import { TransactionConfig as Tx } from 'web3-core';
 import CliqueGenesis from './CliqueGenesis';
 import Contracts from './Contracts';
 import Shell from '../Shell';
@@ -18,8 +18,8 @@ import GethNode, { GETH_VERSION } from '../Node/GethNode';
 import InitConfig from '../Config/InitConfig';
 import Proof from './Proof';
 
-import Web3 = require('web3');
-
+import Web3 from 'web3';
+import { HttpProvider } from 'web3-providers-http';
 /**
  * The new auxiliary chain that shall be created.
  */
@@ -451,8 +451,9 @@ export default class AuxiliaryChainInteract {
    * It fetches the list of wallets with their status. It is only supported in Geth client.
    */
   private getWallets() {
+    const provider =  <HttpProvider> this.web3.currentProvider;
     return new Promise((resolve, reject) => {
-      this.web3.currentProvider.send({
+    provider.send({
         jsonrpc: '2.0',
         method: 'personal_listWallets',
         id: new Date().getTime(),
@@ -498,13 +499,13 @@ export default class AuxiliaryChainInteract {
     merklePatriciaProof: ContractInteract.MerklePatriciaProof;
   }> {
     this.logInfo('deploying contracts');
-
+    const txfrom = this.txOptions.from.toString();
     /* Deployer is set as admin, so that set co-anchor transaction can be done.
      * Once setup is done, admin will be restored to actual address.
      */
     const anchorOrganization = await this.deployOrganization(
       this.initConfig.auxiliaryAnchorOrganizationOwner,
-      this.txOptions.from,
+      txfrom,
       this.anchorOrganizationDeploymentNonce,
     );
     const anchor = await this.deployAnchor(
