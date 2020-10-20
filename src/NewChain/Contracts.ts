@@ -1,10 +1,10 @@
 import { ContractInteract } from '@openst/mosaic.js';
-import { Tx } from 'web3/eth/types';
-import Contract from 'web3/eth/contract';
+import { TransactionConfig as Tx } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
 import { contracts } from '@openst/mosaic-contracts';
 import Logger from '../Logger';
 
-import Web3 = require('web3');
+import Web3 from 'web3';
 
 /**
  * Contracts contains methods to deploy contracts.
